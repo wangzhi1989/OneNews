@@ -3,7 +3,21 @@
 2017/4/7 15:05:52 
 
 ## 1.Using the Design Support Library.
-https://developer.android.com/training/material/design-library.html
+
+**参考：**
+
+* Using the Design Support Library<br>https://developer.android.com/training/material/design-library.html</br>
+
+* Android Design Support Library（1）- FloatingActionButton的使用<br>http://blog.csdn.net/leejizhou/article/details/50479934</br>
+
+* Android Design Support Library（2）- TextInputLayout的使用<br>http://blog.csdn.net/leejizhou/article/details/50494634</br>
+
+* Android Design Support Library（3）- Snackbar的使用<br>http://blog.csdn.net/leejizhou/article/details/50513833</br>
+
+* Android Design Support Library（4）- TabLayout的使用<br>http://blog.csdn.net/leejizhou/article/details/50520547</br>
+
+* Android Design Support Library（5）- CoordinatorLayout的入门使用<br>http://blog.csdn.net/leejizhou/article/details/50533020</br>
+
 
 Design Support Library包含8个控件，具体如下：
 
@@ -75,53 +89,59 @@ PS一句：CoordinatorLayout还提供了layout_anchor和layout_anchorGravity属�
 
 可以使用CoordinatorLayout.DefaultBehavior(你的View.Behavior.class)注解或者在布局中使用app:layout_behavior=”com.example.app.你的View$Behavior”属性来定义view的默认行为。 framework让任意View和CoordinatorLayout结合在一起成为了可能。
 
+----------
 
+## 2.Fragment
 
+**参考：**
 
+* Creating a Fragment<br>https://developer.android.com/training/basics/fragments/creating.html<br>
 
+* Building a Dynamic UI with Fragments<br>https://developer.android.com/training/basics/fragments/fragment-ui.html<br>
 
+* Android类参考---Fragment（一）<br>http://blog.csdn.net/think_soft/article/details/7619251<br>
 
+* Android类参考---Fragment（二）<br>http://blog.csdn.net/think_soft/article/details/7621380<br>
 
+* Android类参考---Fragment（三）<br>http://blog.csdn.net/think_soft/article/details/7623967<br>
 
+* Android类参考---Fragment（四）<br>http://blog.csdn.net/think_soft/article/details/7625454<br>
 
+### viewPager.setOffscreenPageLimit
+```java
+        viewPager = (ViewPager) view.findViewById(R.id.viewPager);
+        viewPager.setOffscreenPageLimit(3);
+```
 
+在空闲状态下，将视图层次结构中应保留的页面数量设置为当前页面的两侧。超出此限制的页面将在需要时从适配器重新创建。
 
+这是作为优化提供的。如果您事先知道您需要支持的页面数量或者您的页面上已经安装了懒惰加载机制，则调整此设置可以有助于寻呼动画和交互的平滑度。如果您有少量页面（3-4），您可以一次性保持活动状态，则会在用户页面来回更新时间花费在新创建的视图子树的布局中。
 
+您应该将此限制降低，特别是如果您的网页具有复杂的布局。此设置默认为1。
+Set the number of pages that should be retained to either side of the current page in the view hierarchy in an idle state. Pages beyond this limit will be recreated from the adapter when needed.
 
+This is offered as an optimization. If you know in advance the number of pages you will need to support or have lazy-loading mechanisms in place on your pages, tweaking this setting can have benefits in perceived smoothness of paging animations and interaction. If you have a small number of pages (3-4) that you can keep active all at once, less time will be spent in layout for newly created view subtrees as the user pages back and forth.
 
+You should keep this limit low, especially if your pages have complex layouts. This setting defaults to 1.
 
+### FragmentPagerAdapter与FragmentStatePagerAdapter
+* Creating Swipe Views with Tabs<br>https://developer.android.com/training/implementing-navigation/lateral.html</br>
+```java
+public static class MyPagerAdapter extends FragmentPagerAdapter {
+}
 
+public class DemoCollectionPagerAdapter extends FragmentStatePagerAdapter {
+}
+```
+```java
+MyPagerAdapter adapter = new MyPagerAdapter(getChildFragmentManager());
+mDemoCollectionPagerAdapter = new DemoCollectionPagerAdapter(getSupportFragmentManager());
+```
 
+FragmentPagerAdapter
+This is best when navigating between sibling screens representing a fixed, small number of pages.
+在同步屏幕之间进行导航，这表示固定的少量页面是最好的。
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+FragmentStatePagerAdapter
+This is best for paging across a collection of objects for which the number of pages is undetermined. It destroys fragments as the user navigates to other pages, minimizing memory usage.
+这最适合在不确定页数的对象集合之间进行分页。 当用户导航到其他页面时，它会破坏碎片，从而最大限度地减少内存使用。
