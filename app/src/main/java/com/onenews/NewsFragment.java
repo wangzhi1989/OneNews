@@ -1,0 +1,87 @@
+package com.onenews;
+
+import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Created by Administrator on 2017/4/8.
+ */
+
+public class NewsFragment extends Fragment {
+
+    public static final int NEWS_TYPE_TOP = 0;
+    public static final int NEWS_TYPE_NBA = 1;
+    public static final int NEWS_TYPE_CARS = 2;
+    public static final int NEWS_TYPE_JOKES = 3;
+
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_news, null);
+
+        tabLayout = (TabLayout) view.findViewById(R.id.tabLayout);
+        viewPager = (ViewPager) view.findViewById(R.id.viewPager);
+        viewPager.setOffscreenPageLimit(3);
+        // ViewPager与Fragment绑定
+        setupViewPager(viewPager);
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.top));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.nba));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.cars));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.jokes));
+        // TabLayout与ViewPager绑定
+        tabLayout.setupWithViewPager(viewPager);
+        return view;
+    }
+
+    private void setupViewPager(ViewPager viewPager) {
+        // Fragment中嵌套使用Fragment一定要使用getChildFragmentManager(),否则会有问题
+        MyPagerAdapter adapter = new MyPagerAdapter(getChildFragmentManager());
+        adapter.addFragment(NewsListFragment.newInstance(NEWS_TYPE_TOP), getString(R.string.top));
+        adapter.addFragment(NewsListFragment.newInstance(NEWS_TYPE_NBA), getString(R.string.nba));
+        adapter.addFragment(NewsListFragment.newInstance(NEWS_TYPE_CARS), getString(R.string.cars));
+        adapter.addFragment(NewsListFragment.newInstance(NEWS_TYPE_JOKES), getString(R.string.jokes));
+        viewPager.setAdapter(adapter);
+    }
+
+    public static class MyPagerAdapter extends FragmentPagerAdapter {
+        private final List<Fragment> mFragments = new ArrayList<>();
+        private final List<String> mFragmentTitles = new ArrayList<>();
+
+        public MyPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        public void addFragment(Fragment fragment, String title) {
+            mFragments.add(fragment);
+            mFragmentTitles.add(title);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragments.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragments.size();
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentTitles.get(position);
+        }
+    }
+
+}
