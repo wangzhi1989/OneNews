@@ -3,18 +3,37 @@ package com.onenews;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 /**
  * Created by Administrator on 2017/4/8.
  */
 
 public class NewsListFragment extends Fragment {
-    private TextView textView;
+    private RecyclerView mRecyclerView;
     private int mType = NewsFragment.NEWS_TYPE_TOP;
+    private NewsAdapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+    private String[] myDataset = {"1", "2", "3", "4", "5", "6", "7", "8", "9",
+            "11", "12", "13", "14", "15", "16", "17", "18", "19",
+            "21", "22", "23", "24", "25", "26", "27", "28", "29",
+            "31", "32", "33", "34", "35", "36", "37", "38", "39",
+            "41", "42", "43", "44", "45", "46", "47", "48", "49",};
+    private RecyclerView.OnScrollListener mOnScrollListener = new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+        }
+
+        @Override
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            super.onScrollStateChanged(recyclerView, newState);
+        }
+    };
 
     public static NewsListFragment newInstance(int type) {
         Bundle args = new Bundle();
@@ -34,8 +53,21 @@ public class NewsListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_newslist, null);
-        textView = (TextView) view.findViewById(R.id.textView);
-        textView.setText("Hello");
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
+
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        mRecyclerView.setHasFixedSize(true);
+
+        // use a linear layout manager
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        // specify an adapter (see also next example)
+        mAdapter = new NewsAdapter(myDataset);
+        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.addOnScrollListener(mOnScrollListener);
         return view;
     }
+
 }
