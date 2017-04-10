@@ -331,3 +331,30 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
 * public void onScrollStateChanged(RecyclerView recyclerView, int newState)
 	回收方法在RecyclerView的滚动状态更改时被调用。
+
+## 4.SwipeRefreshLayout
+https://developer.android.com/training/swipe/add-swipe-interface.html#AddRefreshAction
+https://developer.android.com/training/swipe/respond-refresh-request.html
+
+### setColorSchemeResources
+Set the color scheme of the SwipeRefreshLayout by providing 3 color resource ids
+```java
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary,
+                R.color.colorAccent,
+                R.color.colorPrimaryDark);
+```
+### setOnRefreshListener
+```java
+mSwipeRefreshLayout.setOnRefreshListener(this);
+
+    @Override
+    public void onRefresh() {
+
+    }
+```
+
+## 5.JSON
+
+## 6.在Android Studio中进行单元测试和UI测试
+http://www.jianshu.com/p/03118c11c199
+https://developer.android.com/training/testing/index.html
